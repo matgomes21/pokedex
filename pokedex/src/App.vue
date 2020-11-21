@@ -1,13 +1,26 @@
 <template>
   <div id="app">
-    <h1>Pokedex</h1>
+    <div v-for='(poke,index) in pokemons' :key='index'>
+      <h1>{{ index + 1 }} {{poke.name}}</h1>
+    </div>
   </div>
 </template>
 
 <script>
-
+import axios from 'axios';
 export default {
   name: 'App',
+  data() {
+    return {
+      pokemons: []
+    }
+  },
+  created: function(){
+    axios.get('https://pokeapi.co/api/v2/pokemon?limit=151&offset=0').then(data => {
+      console.log("GET pokemon list");
+      this.pokemons = data.data.results;
+    })
+  }
 }
 </script>
 
